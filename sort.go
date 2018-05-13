@@ -16,13 +16,13 @@ func Partition(data sort.Interface, begin int, end int, mid int) int {
 		for mid < end && data.Less(end, mid) == false {
 			end--
 		}
-		if begin >= end {
+		if begin == end {
 			return mid
 		}
 		data.Swap(begin, end)
-		if begin >= mid {
+		if begin == mid {
 			mid = end
-		} else if end <= mid {
+		} else {
 			mid = begin
 		}
 	}
