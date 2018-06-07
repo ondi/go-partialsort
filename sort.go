@@ -50,7 +50,7 @@ func QuickSortPlainBegin(data sort.Interface, begin int, end int) {
 	if begin < end {
 		mid := begin + (end - begin) / 2
 		mid = Partition(data, begin, end, mid)
-		QuickSortPlainBegin(data, begin, mid - 1)
+		QuickSortPlainBegin(data, begin, mid)
 		QuickSortPlainBegin(data, mid + 1, end)
 	}
 }
@@ -69,7 +69,7 @@ func QuickSortBegin(data sort.Interface, begin int, end int) {
 			QuickSortBegin(data, mid + 1, end)
 			end = mid - 1
 		} else {
-			QuickSortBegin(data, begin, mid - 1);
+			QuickSortBegin(data, begin, mid)
 			begin = mid + 1
 		}
 	}
