@@ -5,6 +5,7 @@
 package partialsort
 
 import "sort"
+import "math"
 
 func Partition(data sort.Interface, begin int, end int, mid int) int {
 	for {
