@@ -127,3 +127,13 @@ func Fsum(in []float64) (res float64) {
 	}
 	return
 }
+
+func b2s(in []byte) string {
+	bs := (* reflect.SliceHeader)(unsafe.Pointer(&in))
+	return *(* string)(unsafe.Pointer(&reflect.StringHeader{Data: bs.Data, Len: bs.Len}))
+}
+
+func s2b(in string) []byte {
+	ss := (* reflect.StringHeader)(unsafe.Pointer(&in))
+	return *(* []byte)(unsafe.Pointer(&reflect.SliceHeader{Data: ss.Data, Len: ss.Len, Cap: ss.Len}))
+}
