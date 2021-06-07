@@ -110,21 +110,22 @@ func PartialSort(data sort.Interface, n int) {
 
 func Fsum(in []float64) (res float64) {
 	var partials []float64
-	for _, x := range in {
-		i := 0
-		for _, y := range partials {
-			if math.Abs(x) < math.Abs(y) {
-				x, y = y, x
+	for _, a := range in {
+		for i, b := range partials {
+			if math.Abs(a) < math.Abs(b) {
+				a, b = b, a
 			}
-			hi := x + y
-			lo := y - (hi - x)
+			hi := a + b
+			lo := b - (hi - a)
 			if lo != 0 {
 				partials[i] = lo
-				i++
+			} else {
+				partials[i], partials[len(partials)-1] = partials[len(partials)-1], partials[i]
+				partials = partials[:len(partials)-1]
 			}
-			x = hi
+			a = hi
 		}
-		partials = append(partials[:i], x)
+		partials = append(partials, a)
 	}
 	for _, v := range partials {
 		res += v
