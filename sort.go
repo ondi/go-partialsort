@@ -4,8 +4,12 @@
 
 package partialsort
 
-import "sort"
-import "math"
+import (
+	"math"
+	"reflect"
+	"sort"
+	"unsafe"
+)
 
 func Partition(data sort.Interface, begin int, end int, mid int) int {
 	for {
@@ -31,7 +35,7 @@ func Partition(data sort.Interface, begin int, end int, mid int) int {
 
 func Nth_elementBegin(data sort.Interface, begin int, end int, n int) {
 	for begin < end {
-		mid := begin + (end - begin) / 2
+		mid := begin + (end-begin)/2
 		mid = Partition(data, begin, end, mid)
 		if n < mid {
 			end = mid - 1
@@ -43,31 +47,31 @@ func Nth_elementBegin(data sort.Interface, begin int, end int, n int) {
 
 func Nth_element(data sort.Interface, n int) {
 	if my_len := data.Len(); my_len > 1 {
-		Nth_elementBegin(data, 0, my_len - 1, n)
+		Nth_elementBegin(data, 0, my_len-1, n)
 	}
 }
 
 func QuickSortPlainBegin(data sort.Interface, begin int, end int) {
 	if begin < end {
-		mid := begin + (end - begin) / 2
+		mid := begin + (end-begin)/2
 		mid = Partition(data, begin, end, mid)
 		QuickSortPlainBegin(data, begin, mid)
-		QuickSortPlainBegin(data, mid + 1, end)
+		QuickSortPlainBegin(data, mid+1, end)
 	}
 }
 
 func QuickSortPlain(data sort.Interface) {
 	if my_len := data.Len(); my_len > 1 {
-		QuickSortPlainBegin(data, 0, my_len - 1)
+		QuickSortPlainBegin(data, 0, my_len-1)
 	}
 }
 
 func QuickSortBegin(data sort.Interface, begin int, end int) {
 	for begin < end {
-		mid := begin + (end - begin) / 2
+		mid := begin + (end-begin)/2
 		mid = Partition(data, begin, end, mid)
-		if mid - begin > end - mid {
-			QuickSortBegin(data, mid + 1, end)
+		if mid-begin > end-mid {
+			QuickSortBegin(data, mid+1, end)
 			end = mid - 1
 		} else {
 			QuickSortBegin(data, begin, mid)
@@ -78,21 +82,21 @@ func QuickSortBegin(data sort.Interface, begin int, end int) {
 
 func QuickSort(data sort.Interface) {
 	if my_len := data.Len(); my_len > 1 {
-		QuickSortBegin(data, 0, my_len - 1)
+		QuickSortBegin(data, 0, my_len-1)
 	}
 }
 
 func PartialSortBegin(data sort.Interface, begin int, end int, n int) {
 	for begin < end {
-		mid := begin + (end - begin) / 2
+		mid := begin + (end-begin)/2
 		mid = Partition(data, begin, end, mid)
 		if n <= mid {
 			end = mid - 1
-		} else if mid - begin > end - mid {
-			QuickSortBegin(data, mid + 1, end)
+		} else if mid-begin > end-mid {
+			QuickSortBegin(data, mid+1, end)
 			end = mid - 1
 		} else {
-			QuickSortBegin(data, begin, mid - 1)
+			QuickSortBegin(data, begin, mid-1)
 			begin = mid + 1
 		}
 	}
@@ -100,7 +104,7 @@ func PartialSortBegin(data sort.Interface, begin int, end int, n int) {
 
 func PartialSort(data sort.Interface, n int) {
 	if my_len := data.Len(); my_len > 1 {
-		PartialSortBegin(data, 0, my_len - 1, n)
+		PartialSortBegin(data, 0, my_len-1, n)
 	}
 }
 
@@ -129,11 +133,11 @@ func Fsum(in []float64) (res float64) {
 }
 
 func b2s(in []byte) string {
-	bs := (* reflect.SliceHeader)(unsafe.Pointer(&in))
-	return *(* string)(unsafe.Pointer(&reflect.StringHeader{Data: bs.Data, Len: bs.Len}))
+	bs := (*reflect.SliceHeader)(unsafe.Pointer(&in))
+	return *(*string)(unsafe.Pointer(&reflect.StringHeader{Data: bs.Data, Len: bs.Len}))
 }
 
 func s2b(in string) []byte {
-	ss := (* reflect.StringHeader)(unsafe.Pointer(&in))
-	return *(* []byte)(unsafe.Pointer(&reflect.SliceHeader{Data: ss.Data, Len: ss.Len, Cap: ss.Len}))
+	ss := (*reflect.StringHeader)(unsafe.Pointer(&in))
+	return *(*[]byte)(unsafe.Pointer(&reflect.SliceHeader{Data: ss.Data, Len: ss.Len, Cap: ss.Len}))
 }
