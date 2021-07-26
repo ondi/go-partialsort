@@ -1,3 +1,3 @@
 module github.com/ondi/go-partialsort
 
-go 1.12
+go 1.17
